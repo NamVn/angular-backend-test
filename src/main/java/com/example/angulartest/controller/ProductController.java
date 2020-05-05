@@ -3,14 +3,13 @@ package com.example.angulartest.controller;
 import com.example.angulartest.dto.ProductDto;
 import com.example.angulartest.dto.UserGetDto;
 import com.example.angulartest.service.PermissionService;
+import com.example.angulartest.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -18,7 +17,7 @@ import java.util.UUID;
 public class ProductController {
     private List<ProductDto> productDtoList;
     @Autowired
-    private PermissionService permissionService;
+    private ProductService productService;
 
     public ProductController() {
         productDtoList = init();
@@ -41,8 +40,27 @@ public class ProductController {
         return list;
     }
 
+    @PostMapping("/add")
+    public ResponseEntity<ProductDto> add(@RequestBody ProductDto productDto) {
+        return new ResponseEntity<>(productService.save(productDto), HttpStatus.OK);
+    }
+
+    @PutMapping("/edit")
+    public ResponseEntity<ProductDto> edit1(@RequestBody ProductDto productDto) {
+        return new ResponseEntity<>(productService.save(productDto), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Map> deleteById(@RequestParam Long id) {
+        Map map = new HashMap<>();
+        productService.deleteById(id);
+        map.put("status", "OK");
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
     /**
      * Danh sách các sản phẩm chưa xử lý hay đã xử lý
+     *
      * @param isChecked
      * @return
      */
@@ -61,6 +79,7 @@ public class ProductController {
 
     /**
      * Những sản phẩm có vấn đề
+     *
      * @param isProblem
      * @return
      */
@@ -77,20 +96,4 @@ public class ProductController {
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
-    /**
-     * Cập nhật sản phẩm này có vấn đề
-     * @param productDto
-     * @return
-     */
-    @PutMapping("/edit")
-    public ResponseEntity edit(@RequestBody ProductDto productDto) {
-        for (int i = 0; i < productDtoList.size(); i++) {
-            ProductDto productDto1 = productDtoList.get(i);
-            if (productDto.getId().equals(productDto1.getId())) {
-                productDto1.setProblem(productDto.getProblem());
-                return new ResponseEntity(productDto1, HttpStatus.OK);
-            }
-        }
-        return null;
-    }
 }

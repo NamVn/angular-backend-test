@@ -1,6 +1,9 @@
 package com.example.angulartest.dto;
 
-public class ProductDto {
+import com.example.angulartest.dao.entities.ProductEnt;
+import org.springframework.beans.BeanUtils;
+
+public class ProductDto extends EntDto<ProductEnt> {
     private Long id;
     private String uuid;
     private String name;
@@ -87,4 +90,13 @@ public class ProductDto {
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
+
+    @Override
+    public ProductEnt convertToEnt() {
+        ProductEnt productEnt = new ProductEnt();
+        BeanUtils.copyProperties(this, productEnt);
+        return productEnt;
+    }
+
+
 }

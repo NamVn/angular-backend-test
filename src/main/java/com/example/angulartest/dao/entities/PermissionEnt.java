@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "permission", uniqueConstraints = {@UniqueConstraint(columnNames = {"code"})})
-public class PermissionEnt extends EntBase {
+public class PermissionEnt extends EntBase<PermissionDto> {
 
     private String code;
     private String label;

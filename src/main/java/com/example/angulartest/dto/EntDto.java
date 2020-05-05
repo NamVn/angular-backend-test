@@ -1,8 +1,10 @@
 package com.example.angulartest.dto;
 
+import com.example.angulartest.dao.entities.EntBase;
+
 import java.io.Serializable;
 
-public class EntDto implements Serializable {
+public abstract class EntDto<T> implements Serializable {
     private Long id;
 
     private String uuid;
@@ -22,4 +24,6 @@ public class EntDto implements Serializable {
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
+
+    public abstract T convertToEnt();
 }

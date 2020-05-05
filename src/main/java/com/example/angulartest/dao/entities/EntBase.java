@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @MappedSuperclass
-public abstract class EntBase implements Serializable {
+public abstract class EntBase<T> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -74,5 +74,5 @@ public abstract class EntBase implements Serializable {
     /*
      *Get Ent to Dto object
      * */
-    public abstract EntDto getAsDto();
+    public abstract T getAsDto();
 }
